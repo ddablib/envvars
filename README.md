@@ -37,7 +37,6 @@ There are four possible ways to use the unit:
 3. For maximum portability you can add `PJEnvVars.pas` to a Delphi package.
 4. If you use Git you can add the [`ddablib/envvars`](https://github.com/ddablib/envvars) GitHub repository as a Git submodule and add it to your project. Obviously, it's safer if you fork the repo and use your copy, just in case `ddablib/envvars` ever goes away.
 
-
 > **NOTE:** None of the above methods will install the deprecated component into the Delphi IDE. To do this you need to add `PJEnvVars.pas`, `PJEnvVars.dcr` and `PJEnvVarsDsgn.pas` to a design time package. If you need help doing this [see here](https://www.delphidabbler.com/url/install-comp). This is not recommended other than for reasons of backwards compatibility.
 
 ## Documentation
@@ -55,7 +54,6 @@ The demo programs are documented in the [`README.md`](https://github.com/ddablib
 ## Update History
 
 A complete change log is provided in [`CHANGELOG.md`](https://github.com/ddablib/envvars/blob/main/CHANGELOG.md) that is included in the download.
-
 
 ## License
 
