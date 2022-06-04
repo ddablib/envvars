@@ -1,617 +1,191 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--
- * This Source Code Form is subject to the terms of the Mozilla Public License,
- * v. 2.0. If a copy of the MPL was not distributed with this file, You can
- * obtain one at http://mozilla.org/MPL/2.0/
- *
- * Copyright (C) 2014, Peter Johnson (www.delphidabbler.com).
- *
- * Read-me file for Environment Variables Unit demo programs
--->
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+# Environment Variables Unit - Demo Programs
 
-<head>
+## Introduction
 
-  <title>
-    DelphiDabbler Environment Variables Unit Demo Programs Read-me
-  </title>
+Two demo projects are distributed with the _Environment Variables Unit_. Each demo is available in both VCL and FireMonkey 2 versions.
 
-  <style type="text/css">
-    body {
-      margin: 1em;
-      padding: 0;
-      font-family: Verdana, Arial, sans-serif;
-      font-size: 9pt;
-      line-height: 150%;
-    }
-    h1 {
-      margin: 0 0 1em 0;
-      padding: 0.5em;
-      border: 1px silver solid;
-      background-color: #eee;
-      font-size: 13pt;
-      font-weight: bold;
-      text-align: center;
-    }
-    h1 .subtitle {
-      font-style: italic;
-      color: #336;
-    }
-    h2 {
-      margin: 1em 0 0 0;
-      padding: 0;
-      padding-bottom: 6px;
-      border-bottom: 1px silver solid;
-      font-size: 11pt;
-      font-weight: bold;
-    }
-    h3 {
-      margin: 0.5em 0 0 0;
-      padding: 0;
-      font-size: 9pt;
-      font-weight: bold;
-    }
-    p {
-      margin: 0.5em 0 0 0;
-      padding: 0;
-    }
-    ol {
-      margin: 0.5em 0 0 3em;
-      padding: 0;
-    }
-    ol li {
-      margin-top: 0.5em;
-    }
-    dl {
-      margin: 0.5em 0 0 0;
-      padding: 0;
-    }
-    dt {
-      margin-top: 0.5em;
-    }
-    dd {
-      margin: 0.25em 0 0 3em;
-    }
-    dd p {
-      margin-top: 0.25em;
-    }
-    }
-    kbd {
-      font-family: "Courier New", Courier, monospace;
-    }
-    a:link {
-      color: #336;
-      text-decoration: underline;
-    }
-    a:visited {
-      color: #669;
-      text-decoration: underline;
-    }
-    a:active {
-      color: #336;
-      text-decoration: underline;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .pullout {
-      border-left: 8px silver solid;
-      background-color: #eee;
-      margin: 0.5em 0 0 0;
-      padding: 0.25em 0.5em;
-      font-style: italic;
-    }
-    .indent {
-      margin-left: 3em;
-    }
-    .endnotes {
-      margin: 1.5em 0 0 0;
-      padding: 1em 0 0 0;
-      border-top: 1px silver solid;
-    }
-    .comments {
-      font-style: italic;
-    }
-    .copyright,
-    .copyright a:link,
-    .copyright a:visited,
-    .copyright a:active {
-      margin: 1em 0 0 0;
-      color: gray;
-      font-size: 8pt;
-      text-align: right;
-    }
-  </style>
+The VCL versions require Delphi 7 or later, while the FireMonkey 2 versions require Delphi XE3 or later.
 
-</head>
+Each demo project includes the _PJEnvVars_ unit explicitly so there is no need to install it before using the demos.
 
-<body>
+## Demo 1
 
-<h1 id="top">
-  <div>Environment Variables Unit</div>
-  <div class="subtitle">Demo Programs Read-me</div>
-</h1>
+Demo #1 can be found in the `Demos\1` directory, with the VCL and FireMonkey 2 versions being in the `VCL` and `FMX` sub-directories respectively.
 
-<h2>
-  Introduction
-</h2>
+Both versions present a similar interface. They demonstrate every method of the _TPJEnvironmentVars_ static class and show how to use the _TPJEnvVarsEnumerator_ enumerator class.
 
-<p>
-  Two demo projects are distributed with the <em>Environment Variables
-  Unit</em>. Each demo is available in both VCL and FireMonkey 2 versions.
-</p>
+When run the program displays a set of controls on the left and an empty list box on the right of its window. The following buttons exercise the methods of _TPJEnvironmentVars_.
 
-<p>
-  The VCL versions require Delphi 7 or later, while the FireMonkey 2 versions
-  require Delphi XE3 or later.
-</p>
+### Method buttons
 
-<p>
-  The demos may need minor changes in order
-</p>
+* _GetValue()_
 
-<p>
-  Each demo project includes the <var>PJEnvVars</var> unit explicitly so there
-  is no need to install it before using the demos.
-</p>
+  Gets the value of the environment variable whose name is in the _Name_ edit box and displays it in the _Value_ edit box. If the name is blank, or doesn't exist, or exists but has no value, the _Value_ edit box is cleared.
 
-<h2>
-  Demo 1
-</h2>
+* _SetValue()_
 
-<p>
-  Demo #1 can be found in the <kbd>Demos\1</kbd> directory, with the VCL and
-  FireMonkey 2 versions being in the <kbd>VCL</kbd> and <kbd>FMX</kbd>
-  sub-directories respectively.
-</p>
+  Sets the value of the environment variable named in the _Name_ edit box to the value entered in the _Value_ edit box. If the environment variable doesn't exist it is created. If it does exist its value is updated. If the _Value_ edit box is empty the environment variables value is cleared, but the variable still exists. If the _Name_ edit box is empty an error message is displayed.
 
-<p>
-  Both versions present a similar interface. They demonstrate every method of
-  the <var>TPJEnvironmentVars</var> static class and show how to use the
-  <var>TPJEnvVarsEnumerator</var> enumerator class.
-</p>
+* _Delete()_
 
-<p>
-  When run the program displays a set of controls on the left and an empty list
-  box on the right of its window. The following buttons exercise the methods of
-  <var>TPJEnvironmentVars</var>.
-</p>
+  Deletes the environment variable named in the _Name_ edit box from the environment block. If the environment variable didn't already exist nothing happens. If the _Name_ edit box is empty an error message is displayed.
 
-<dl class="indent">
-  <dt>
-    <em>GetValue()</em>
-  </dt>
-  <dd>
-    Gets the value of the environment variable whose name is in the
-    <em>Name</em> edit box and displays it in the <em>Value</em> edit box. If
-    the name is blank, or doesn't exist, or exists but has no value, the
-    <em>Value</em> edit box is cleared.
-  </dd>
-  <dt>
-    <em>SetValue()</em>
-  </dt>
-  <dd>
-    Sets the value of the environment variable named in the <em>Name</em> edit
-    box to the value entered in the <em>Value</em> edit box. If the environment
-    variable doesn't exist it is created. If it does exist its value is updated.
-    If the <em>Value</em> edit box is empty the environment variables value is
-    cleared, but the variable still exists. If the <em>Name</em> edit box is
-    empty an error message is displayed.
-  </dd>
-  <dt>
-    <em>Delete()</em>
-  </dt>
-  <dd>
-    Deletes the environment variable named in the <em>Name</em> edit box from
-    the environment block. If the environment variable didn't already exist
-    nothing happens. If the <em>Name</em> edit box is empty an error message is
-    displayed.
-  </dd>
-  <dt>
-    <em>Expand()</em>
-  </dt>
-  <dd>
-    Expands the string value entered in the <em>Name</em> edit box and displays
-    the result in the <em>Value</em> edit box. The entered string can contain
-    any text. Environment variable names enclosed between two <kbd>%</kbd>
-    characters are replaced with their values. Other text and invalid variable
-    names are left unchanged.
-  </dd>
-  <dt>
-    <em>Exists()</em>
-  </dt>
-  <dd>
-    Displays a dialogue box informing if the environment variable named in the
-    <em>Name</em> edit control exists in the environment block. Blank names are
-    always treated as non-existent, event if there are actually some unnamed
-    values in the environment block.
-  </dd>
-  <dt>
-    <em>Count()</em>
-  </dt>
-  <dd>
-    Displays a dialogue box that shows of the number of environment variables in
-    the current environment block.
-  </dd>
-  <dt>
-    <em>BlockSize()</em>
-  </dt>
-  <dd>
-    Displays a dialogue box that shows the size of the current environment block
-    <em>in characters</em>.
-  </dd>
-  <dt>
-    <em>GetAllNames(TStrings)</em>
-  </dt>
-  <dd>
-    Gets the names of all environment variables in the current environment
-    block in <var>TStrings</var> format. The code behind the button updates the
-    list box's <var>Items</var> property directly in the method call.
-  </dd>
-  <dt>
-    <em>GetAllNames: array</em>
-  </dt>
-  <dd>
-    Gets the names of all environment variables in the current environment block
-    and returns them as a dynamic string array. The underlying code iterates the
-    array and displays each name, enclosed between <kbd>[</kbd> and <kbd>]</kbd>
-    characters, in the list box.
-  </dd>
-  <dt>
-    <em>EnumNames() - method</em>
-  </dt>
-  <dd>
-    Calls the <var>EnumNames</var> method, passing a form method as the
-    callback. The callback method adds each enumerated environment variable name
-    to the list box, with the name enclosed between <kbd>[</kbd> and
-    <kbd>]</kbd> characters.
-  </dd>
-  <dt>
-    <em>EnumNames() - closure</em>
-  </dt>
-  <dd>
-    Calls the <var>EnumNames</var> method, passing an anonymous method (or
-    closure) as the callback. This anonymous method adds each enumerated
-    environment variable name to the list box, with each name enclosed between
-    <kbd>&lt;</kbd> and <kbd>&gt;</kbd> characters.<br />
-    <strong>Note:</strong> this button is disabled when the demo is compiled
-    with a version of Delphi that does not support anonymous methods.
-  </dd>
-  <dt>
-    <em>GetAll(TStrings)</em>
-  </dt>
-  <dd>
-    Gets the names and values of all environment variables in the current
-    environment block in <var>TStrings</var> format. The code behind the button
-    updates the list box's <var>Items</var> property directly in the method call
-    and displays the environment variables exactly as they are stored in the
-    environment block.
-  </dd>
-  <dt>
-    <em>GetAll: array</em>
-  </dt>
-  <dd>
-    Gets the names and values of all environment variables in the current
-    environment block and returns them as a dynamic array of
-    <var>TPJEnvironmentVar</var> records. The underlying code iterates this
-    array and displays each environment variable's name and value in the list
-    box. Variable names are enclosed by <kbd>[</kbd> and <kbd>]</kbd> and are
-    followed by the associated value enclosed in double quotes.
-  </dd>
-  <dt>
-    <em>EnumVars() - method</em>
-  </dt>
-  <dd>
-    Calls the <var>EnumVars</var> method, passing a form method as the callback.
-    The callback method adds each enumerated environment variable name and value
-    to the list box, with names enclosed between <kbd>[</kbd> and <kbd>]</kbd>
-    characters and values enclosed by double quotes.
-  </dd>
-  <dt>
-    <em>EnumNames() - closure</em>
-  </dt>
-  <dd>
-    Calls the <var>EnumVars</var> method, passing an anonymous method (or
-    closure) as the callback. This anonymous method adds the name and value of
-    each enumerated environment variable to the list box, with each name
-    enclosed between <kbd>&lt;</kbd> and <kbd>&gt;</kbd> characters and values
-    enclosed by double quotes.<br />
-    <strong>Note:</strong> this button is disabled when the demo is compiled
-    with a version of Delphi that does not support anonymous methods.
-  </dd>
-  <dt>
-    <em>CreateBlock()</em>
-  </dt>
-  <dd>
-    Creates a new environment block containing the three environment variables
-    listed below the button, and displays it in the list box. If the <em>Include
-    current environment in new block</em> check box is ticked then the
-    environment variables in the current block are included in the new block.
-  </dd>
-</dl>
+* _Expand()_
 
-<p>
-  Finally, the <em>Enumerate names using TPJEnvVarsEnumerator</em> button
-  demonstrates the use of the <var>TPJEnvVarsEnumerator</var> class. Clicking it
-  creates a <var>TPJEnvVarsEnumerator</var> instance and uses it to enumerate
-  the names of all the environment variable in the current block. Each name is
-  enclosed between <kbd>[</kbd> and <kbd>]</kbd> characters and added to the
-  list box.
-</p>
+  Expands the string value entered in the _Name_ edit box and displays the result in the _Value_ edit box. The entered string can contain any text. Environment variable names enclosed between two `%` characters are replaced with their values. Other text and invalid variable names are left unchanged.
 
-<h3>
-  Compilation notes
-</h3>
+* _Exists()_
 
-<p>
-  How the projects are compiled depends on the version of Delphi in use, as
-  follows:
-</p>
+  Displays a dialogue box informing if the environment variable named in the _Name_ edit control exists in the environment block. Blank names are always treated as non-existent, even if there are actually some unnamed values in the environment block.
 
-<dl>
-  <dt>
-    Delphi 7
-  </dt>
-  <dd>
-    Open and compile <kbd>Demos\1\VCL\VCLDemo1.dpr</kbd>.
-  </dd>
-  <dt>
-    Delphi 2005 and 2006
-  </dt>
-  <dd>
-    Open and compile <kbd>Demos\1\VCL\VCLDemo1.bdsproj</kbd>.
-  </dd>
-  <dt>
-    Delphi 2007
-  </dt>
-  <dd>
-    Rename <kbd>Demos\1\VCL\VCLDemo1.dproj.2007</kbd> as
-    <kbd>Demos\1\VCL\VCLDemo1.dproj</kbd>, overwriting the original version.
-    Now open and compile the renamed project.
-  </dd>
-  <dt>
-    Delphi 2009 to XE
-  </dt>
-  <dd>
-    Open and compile <kbd>Demos\1\VCL\VCLDemo1.dproj</kbd>.
-  </dd>
-  <dt>
-    Delphi XE2
-  </dt>
-  <dd>
-    Open <kbd>Demos\1\VCL\VCLDemo1.dproj</kbd>. This project can be built as
-    either a 32- or 64-bit Windows application, but it only defines a 32-bit
-    Windows target by default. So, to compile as a 32-bit application simply
-    build the project as opened. To compile as a 64-bit application you must
-    manually add a Windows 64-bit target to the project and re-build it.
-  </dd>
-  <dt>
-    Delphi XE3 and later
-  </dt>
-  <dd>
-    <p>
-      To compile the VCL version of the project open
-      <kbd>Demos\1\VCL\VCLDemo1.dproj</kbd>. This project can be built as either
-      a 32- or 64-bit Windows application, but it only defines a 32-bit Windows
-      target by default. So, to compile as a 32-bit application, simply build
-      the project as opened. To compile as a 64-bit application you must
-      manually add a Windows 64-bit target to the project and re-build it.
-    </p>
-    <p>
-      To compile the FireMonkey 2 project open
-      <kbd>Demos\1\FMX\FMXDemo1.dproj</kbd>. This project comes with Windows
-      32-bit and 64-bit targets pre-defined, with the 64-bit target as the
-      default. Select the required target and (re)build the project.
-    </p>
-  </dd>
-</dl>
+* _Count()_
 
-<h2>
-  Demo 2
-</h2>
+  Displays a dialogue box that shows of the number of environment variables in the current environment block.
 
-<p>
-  Demo #2 can be found in the <kbd>Demos\2</kbd> directory, with the VCL and
-  FireMonkey 2 versions being in the <kbd>VCL</kbd> and <kbd>FMX</kbd>
-  sub-directories respectively.
-</p>
+* _BlockSize()_
 
-<p>
-  Both versions demonstrate how to create child processes that have custom
-  environment blocks that have been created by using the
-  <var>TPJEnvironmentVars.CreateBlock</var> method.
-</p>
+  Displays a dialogue box that shows the size of the current environment block _in characters_.
 
-<p>
-  Each version of the demo consists of a project group containing two projects.
-  The first, <kbd>Parent.dpr</kbd> compiles into a program that lets the user
-  specify some custom environment variables that can be passed to a child
-  process. More than one child process can be started. The second project is
-  <kbd>Child.dpr</kbd> which implements the child processes that are started
-  from <kbd>Parent.exe</kbd>. All the child process does is to display its
-  environment block in its main window.
-</p>
+* _GetAllNames(TStrings)_
 
-<p>
-  To use the demo programs, proceed as follows:
-</p>
+  Gets the names of all environment variables in the current environment block in _TStrings_ format. The code behind the button updates the list box's Items property directly in the method call.
 
-<ol>
-  <li>
-    Open either <kbd>VCLDemo2</kbd> or <kbd>FMXDemo2</kbd> project groups, using
-    whichever file extension suits your compiler.
-  </li>
-  <li>
-    Compile both the <kbd>Parent</kbd> and <kbd>Child</kbd> projects.
-  </li>
-  <li>
-    Run <kbd>Parent.exe</kbd>
-  </li>
-  <li>
-    Edit, or add to, the suggested environment variable names listed in the
-    large multi-line edit control. Enter each new environment variable in
-    <kbd>Name=Value</kbd> format, one per line. If you enter duplicate values
-    for the same environment variable then the value listed last is used.
-  </li>
-  <li>
-    Tick the <em>Include current environment block</em> check box if you want to
-    pass the current environment block, as well as the custom environment
-    variables, to the child process. If this is done, and if there is a name
-    clash between any variable in the current block and any of the new variables
-    you entered in the edit control, the inherited value will be discarded and
-    the new value from the edit control will be used.
-  </li>
-  <li>
-    Click the large button to start a child process.
-  </li>
-  <li>
-    Review the environment variables displayed by the child process.
-  </li>
-  <li>
-    Repeat from step 4 as required.
-  </li>
-</ol>
+* _GetAllNames: array_
 
-<div class="pullout">
-  <p>
-    <strong>Warning:</strong> Some child processes require that certain
-    environment variables are set to enable them to operate properly. Therefore,
-    if you are not passing the current environment block to the child process,
-    you may occasionally see unexpected behaviour.
-  </p>
-  <p>
-    An example of this is in the FireMonkey 2 version of the project. The child
-    application seems to require that the <kbd>SystemRoot</kbd> environment
-    variable is set correctly. Failure to pass this environment variable to the
-    child process can result in the process displaying a console window instead
-    of its GUI. For this reason <kbd>SystemRoot</kbd> is displayed in the
-    multi-line edit control as one of the suggested environment variables in the
-    FireMonkey version.
-  </p>
-</div>
+  Gets the names of all environment variables in the current environment block and returns them as a dynamic string array. The underlying code iterates the array and displays each name, enclosed between `[` and `]` characters, in the list box.
 
-<h3>
-  Compilation notes
-</h3>
+* _EnumNames() method_
 
-<p>
-  How the projects are compiled depends on the version of Delphi in use, as
-  follows:
-</p>
+  Calls the _EnumNames_ method, passing a form method as the callback. The callback method adds each enumerated environment variable name to the list box, with the name enclosed between `[` and `]` characters.
 
-<dl>
-  <dt>
-    Delphi 7
-  </dt>
-  <dd>
-    Open the <kbd>Demos\2\VCL\VCLDemo2.bpg</kbd> project group and build both
-    projects.
-  </dd>
-  <dt>
-    Delphi 2005 and 2006
-  </dt>
-  <dd>
-    Open the <kbd>Demos\2\VCL\VCLDemo2.bdsgroup</kbd> project group and build
-    both projects.
-  </dd>
-  <dt>
-    Delphi 2007
-  </dt>
-  <dd>
-    Rename <kbd>Demos\2\VCL\Parent.dproj.2007</kbd> as
-    <kbd>Demos\2\VCL\Parent.dproj</kbd> and
-    <kbd>Demos\2\VCL\Child.dproj.2007</kbd> as
-    <kbd>Demos\2\VCL\Child.dproj</kbd>, overwriting the original versions. Now
-    open the <kbd>Demos\2\VCL\VCLDemo2.groupproj</kbd> project group and build
-    both projects.
-  </dd>
-  <dt>
-    Delphi 2009 to XE
-  </dt>
-  <dd>
-    Open the <kbd>Demos\2\VCL\VCLDemo2.groupproj</kbd> project group and build
-    both projects.
-  </dd>
-  <dt>
-    Delphi XE2
-  </dt>
-  <dd>
-    Open the <kbd>Demos\2\VCL\VCLDemo2.groupproj</kbd> project group. The
-    <kbd>Parent</kbd> and <kbd>Child</kbd> projects can be built as either 32-
-    or 64-bit Windows applications, but each defines only a 32-bit Windows
-    target by default. So, to compile both projects as 32-bit applications,
-    simply build all the projects as opened. To compile either or both as a
-    64-bit applications you must manually add a Windows 64-bit target to one or
-    both projects and re-build the affected project(s).
-  </dd>
-  <dt>
-    Delphi XE3 and later
-  </dt>
-  <dd>
-    <p>
-      To compile the VCL version of the project open the
-      the <kbd>Demos\2\VCL\VCLDemo2.groupproj</kbd> project group. The
-      <kbd>Parent</kbd> and <kbd>Child</kbd> projects can be built as either 32-
-      or 64-bit Windows applications, but each defines only a 32-bit Windows
-      target by default. So, to compile both projects as 32-bit applications,
-      simply build all the projects as opened. To compile either or both as a
-      64-bit applications you must manually add a Windows 64-bit target to one
-      or both projects and re-build the affected project(s).
-    </p>
-    <p>
-      To compile the FireMonkey 2 project open the
-      <kbd>Demos\2\FMX\FMXDemo2.groupproj</kbd> project group. Both the
-      <kbd>Parent</kbd> and <kbd>Child</kbd> projects come with 32-bit and
-      64-bit targets pre-defined, with the 64-bit target as the default in both
-      cases. Select the required target for each project and (re)build the
-      affected project(s).
-    </p>
-    <p>
-      <strong>Note:</strong> In both the VCL or FireMonkey 2 versions of this
-      demo you will get a compile error if the projects have different targets
-      and you attempt to build the whole project group at once. To get round
-      this problem just build each project separately.
-    </p>
-  </dd>
-</dl>
+* _EnumNames() closure_
 
-<h2>
-  Deprecated Code
-</h2>
+  Calls the _EnumNames_ method, passing an anonymous method (or closure) as the callback. This anonymous method adds each enumerated environment variable name to the list box, with each name enclosed between `<` and `>` characters.
 
-<p>
-  There are no demos for the deprecated <var>TPJEnvVars</var> component and
-  public routines contained in the unit. Therefore <var>TPJEnvVars</var> does
-  not need to be installed to use the demos.
-</p>
+  **Note:** this button is disabled when the demo is compiled with a version of Delphi that does not support anonymous methods.
 
-<p>
-  For the time being some demo code still exists in the <kbd>EnvVarsDemo</kbd>
-  directory of the <em>Delphi Doodlings</em> Subversion repository on Assembla.
-  You can see a list of the demo files at <a
-    href="http://bit.ly/1mM1jLt"
-  >http://bit.ly/1mM1jLt</a>. Subversion users can also checkout the files using
-  the same URL. Please note this code is no longer maintained or supported.
-</p>
+* _GetAll(TStrings)_
 
-<div class="endnotes">
+  Gets the names and values of all environment variables in the current environment block in _TStrings_ format. The code behind the button updates the list box's Items property directly in the method call and displays the environment variables exactly as they are stored in the environment block.
 
-  <div class="comments">
-    Please <a
-      href="http://www.delphidabbler.com/contact"
-    >let me know</a> if you have any comments about this demo code, if you have
-    found a bug, or you want to suggest any updates.
-  </div>
+* _GetAll: array_
 
-  <div class="copyright">
-    This document is copyright &copy; 2014, P D Johnson, <a
-      href="http://www.delphidabbler.com/"
-    >www.delphidabbler.com</a>
-  </div>
+  Gets the names and values of all environment variables in the current environment block and returns them as a dynamic array of _TPJEnvironmentVar_ records. The underlying code iterates this array and displays each environment variable's name and value in the list box. Variable names are enclosed by `[` and `]` and are followed by the associated value enclosed in double quotes.
 
-</div>
+* _EnumVars() method_
 
-</body>
+  Calls the _EnumVars_ method, passing a form method as the callback. The callback method adds each enumerated environment variable name and value to the list box, with names enclosed between `[` and `]` characters and values enclosed by double quotes.
 
-</html>
+* _EnumVars() closure_
+
+  Calls the _EnumVars_ method, passing an anonymous method (or closure) as the callback. This anonymous method adds the name and value of each enumerated environment variable to the list box, with each name enclosed between `<` and `>` characters and values enclosed by double quotes.
+
+  **Note:** this button is disabled when the demo is compiled with a version of Delphi that does not support anonymous methods.
+
+* _CreateBlock()_
+
+  Creates a new environment block containing the three environment variables listed below the button, and displays it in the list box. If the _Include current environment in new block_ check box is ticked then the environment variables in the current block are included in the new block.
+
+Finally, the _Enumerate names using TPJEnvVarsEnumerator_ button demonstrates the use of the _TPJEnvVarsEnumerator_ class. Clicking it creates a _TPJEnvVarsEnumerator_ instance and uses it to enumerate the names of all the environment variable in the current block. Each name is enclosed between `[` and `]` characters and added to the list box.
+
+### Demo 1 compilation notes
+
+How the projects are compiled depends on the version of Delphi in use, as follows:
+
+* _Delphi 7_
+
+  Open and compile `Demos\1\VCL\VCLDemo1.dpr`.
+
+* _Delphi 2005 and 2006_
+
+  Open and compile `Demos\1\VCL\VCLDemo1.bdsproj`.
+
+* _Delphi 2007_
+
+  Rename `Demos\1\VCL\VCLDemo1.dproj.2007` as `Demos\1\VCL\VCLDemo1.dproj`, overwriting the original version. Now open and compile the renamed project.
+
+* _Delphi 2009 to XE_
+
+  Open and compile `Demos\1\VCL\VCLDemo1.dproj`.
+
+* _Delphi XE2_
+
+  Open `Demos\1\VCL\VCLDemo1.dproj`. This project can be built as either a 32- or 64-bit Windows application, but it only defines a 32-bit Windows target by default. So, to compile as a 32-bit application simply build the project as opened. To compile as a 64-bit application you must manually add a Windows 64-bit target to the project and re-build it.
+
+* _Delphi XE3 and later_
+
+  To compile the VCL version of the project open `Demos\1\VCL\VCLDemo1.dproj`. This project can be built as either a 32- or 64-bit Windows application, but it only defines a 32-bit Windows target by default. So, to compile as a 32-bit application, simply build the project as opened. To compile as a 64-bit application you must manually add a Windows 64-bit target to the project and re-build it.
+
+  To compile the FireMonkey 2 project open `Demos\1\FMX\FMXDemo1.dproj`. This project comes with Windows 32-bit and 64-bit targets pre-defined, with the 64-bit target as the default. Select the required target and (re)build the project.
+
+## Demo 2
+
+Demo #2 can be found in the `Demos\2` directory, with the VCL and FireMonkey 2 versions being in the `VCL` and `FMX` sub-directories respectively.
+
+Both versions demonstrate how to create child processes with custom environment blocks that have been created by using the _TPJEnvironmentVars.CreateBlock_ method.
+
+Each version of the demo consists of a project group containing two projects. The first, `Parent.dpr` compiles into a program, `Parent.exe`, that lets the user specify some custom environment variables that can be passed to a child process. More than one child process can be started. The second project is `Child.dpr` which compiles into `Child.exe` that implements the child processes that are started from `Parent.exe`. All the child process does is to display its environment block in its main window.
+
+To use the demo programs, proceed as follows:
+
+1. Open either _VCLDemo2_ or _FMXDemo2_ project groups, using whichever file extension suits your compiler.
+
+2. Compile both the `Parent.dpr` and `Child.dpr` projects.
+
+3. Run `Parent.exe`
+
+4. Edit, or add to, the suggested environment variable names listed in the large multi-line edit control. Enter each new environment variable in `Name=Value` format, one per line. If you enter duplicate values for the same environment variable then the value listed last is used.
+
+5. Tick the _Include current environment block_ check box if you want to pass the current environment block, as well as the custom environment variables, to the child process. If this is done, and if there is a name clash between any variable in the current block and any of the new variables you entered in the edit control, the inherited value will be discarded and the new value from the edit control will be used.
+
+6. Click the large button to start a child process.
+
+7. Review the environment variables displayed by the child process.
+
+8. Repeat from step 4 as required.
+
+    > **Warning:** Some child processes require that certain environment variables are set to enable them to operate properly. Therefore, if you are not passing the current environment block to the child process, you may occasionally see unexpected behaviour.
+    >
+    > An example of this is in the FireMonkey 2 version of the project. The child application seems to require that the `SystemRoot` environment variable is set correctly. Failure to pass this environment variable to the child process can result in the process displaying a console window instead of its GUI. For this reason `SystemRoot` is displayed in the multi-line edit control as one of the suggested environment variables in the FireMonkey version.
+
+### Demo 2 compilation notes
+
+How the projects are compiled depends on the version of Delphi in use, as follows:
+
+* _Delphi 7_
+
+  Open the `Demos\2\VCL\VCLDemo2.bpg` project group and build both projects.
+
+* _Delphi 2005 and 2006_
+
+  Open the `Demos\2\VCL\VCLDemo2.bdsgroup` project group and build both projects.
+
+* _Delphi 2007_
+
+  Rename `Demos\2\VCL\Parent.dproj.2007` as `Demos\2\VCL\Parent.dproj` and `Demos\2\VCL\Child.dproj.2007` as `Demos\2\VCL\Child.dproj`, overwriting the original versions. Now open the `Demos\2\VCL\VCLDemo2.groupproj` project group and build both projects.
+
+* _Delphi 2009 to XE_
+
+  Open the `Demos\2\VCL\VCLDemo2.groupproj` project group and build both projects.
+
+* _Delphi XE2_
+
+  Open the `Demos\2\VCL\VCLDemo2.groupproj` project group. The _Parent_ and _Child_ projects can be built as either 32- or 64-bit Windows applications, but each defines only a 32-bit Windows target by default. So, to compile both projects as 32-bit applications, simply build all the projects as opened. To compile either or both as a 64-bit applications you must manually add a Windows 64-bit target to one or both projects and re-build the affected project(s).
+
+* _Delphi XE3 and later_
+
+  To compile the VCL version of the project open the `Demos\2\VCL\VCLDemo2.groupproj` project group. The _Parent_ and _Child_ projects can be built as either 32- or 64-bit Windows applications, but each defines only a 32-bit Windows target by default. So, to compile both projects as 32-bit applications, simply build all the projects as opened. To compile either or both as a 64-bit applications you must manually add a Windows 64-bit target to one or both projects and re-build the affected project(s).
+
+    To compile the FireMonkey 2 project open the `Demos\2\FMX\FMXDemo2.groupproj` project group. Both the _Parent_ and _Child_ projects come with 32-bit and 64-bit targets pre-defined, with the 64-bit target as the default in both cases. Select the required target for each project and (re)build the affected project(s).
+
+  **Note:** In both the VCL or FireMonkey 2 versions of this demo you will get a compile error if the projects have different targets and you attempt to build the whole project group at once. To get round this problem just build each project separately.
+
+## Deprecated Code
+
+There are no demos for the deprecated _TPJEnvVars_ component and public routines contained in the unit. Therefore _TPJEnvVars_ does not need to be installed to use the demos.
+
+For the time being some demo code still exists in the `EnvVarsDemo` directory of the _Delphi Doodlings_ Subversion repository on Assembla. You can see a list of the demo files at [https://bit.ly/1mM1jLt](https://bit.ly/1mM1jLt). Subversion  users can also checkout the files using the same URL. Please note this code is no longer maintained or supported.
+
+Please [create an issue](https://github.com/ddablib/envvars/issues) if you have found a bug, or you want to suggest any updates.
+
+This document is copyright © 2022, [P D Johnson](https://gravatar.com/delphidabbler).
