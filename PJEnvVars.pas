@@ -14,21 +14,44 @@
  * ACKNOWLEDGEMENTS
  *
  * Thanks to "e.e" for bug fix in v1.3.2
+ *
+ * COMPILER COMPATIBILITY
+ *
+ * 1. Only Delphi versions XE and later are supported
+ * 2. Delphi 2009 & 2010 are not supported but *may* compile this unit. A
+ *    compiler warning to this effect will be issued.
+ * 3. Compilers before Delphi 2009 cannot compile this unit.
 }
-
 
 unit PJEnvVars;
 
 
 // Set conditional symbols
+{$UNDEF Can_Compile}
+{$UNDEF May_Compile}
 {$UNDEF Supports_UnitScopeNames}
 {$IFDEF CONDITIONALEXPRESSIONS}
   {$IF CompilerVersion >= 24.0} // Delphi XE3 and later
     {$LEGACYIFEND ON}  // NOTE: this must come before all $IFEND directives
   {$IFEND}
-  {$IF CompilerVersion >= 23.0} // Delphi XE2 ad later
+  {$IF CompilerVersion >= 23.0} // Delphi XE2 and later
     {$DEFINE Supports_UnitScopeNames}
   {$IFEND}
+  {$IF CompilerVersion >= 22.0} // Delphi XE and later
+    {$DEFINE Can_Compile}
+  {$IFEND}
+  {$IF CompilerVersion >= 20.0} // Delphi 2009 and later
+    {$DEFINE May_Compile}
+  {$IFEND}
+{$ENDIF}
+
+// Check compiler compatibility
+{$IFNDEF Can_Compile}
+  {$IFDEF May_Compile}
+    {$MESSAGE Warn 'Delphi 2009/10 are not supported but **might** work.'}
+  {$ELSE}
+    {$MESSAGE Fatal 'Can''t compile. Delphi XE and later are required'}
+  {$ENDIF}
 {$ENDIF}
 
 
