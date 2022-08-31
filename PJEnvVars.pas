@@ -83,35 +83,39 @@ type
   ///  records.</summary>
   TPJEnvironmentVarArray = array of TPJEnvironmentVar;
 
-  ///  <summary>Type of callback method passed to the
-  ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames"/> method, to be called
-  ///  for each enumerated environment variable.</summary>
-  ///  <param name="VarName">string [in] Name of the current environment
-  ///  variable in the enumeration.</param>
-  ///  <param name="Data">Pointer [in] User-specified value that was passed to
-  ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames"/></param>
-  ///  <remarks>Either closures or normal methods can be assigned to
-  ///  <c>TPJEnvVarsEnum</c>.</remarks>
-  TPJEnvVarsEnum = reference to procedure(const VarName: string; Data: Pointer);
-
-  ///  <summary>Type of callback method passed to the
-  ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumVars"/> method, to be called
-  ///  for each enumerated environment variable.</summary>
-  ///  <param name="EnvVar"><see cref="PJEnvVars|TPJEnvironmentVar"/> [in]
-  ///  Information about the current environment variable in the enumeration.
-  ///  </param>
-  ///  <param name="Data">Pointer [in] User-specified value that was passed to
-  ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumVars"/></param>
-  ///  <remarks>Either closures or normal methods can be assigned to
-  ///  <c>TPJEnvVarsEnumEx</c>.</remarks>
-  TPJEnvVarsEnumEx = reference to procedure(const EnvVar: TPJEnvironmentVar;
-    Data: Pointer);
-
   ///  <summary>Static class providing class methods for interrogating,
   ///  manipulating and modifying the environment variables available to the
   ///  current process.</summary>
   ///  <remarks>This class cannot be constructed.</remarks>
   TPJEnvironmentVars = class(TObject)
+  public
+    type
+      ///  <summary>Type of callback method passed to the
+      ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames&lt;T&gt;"/> method,
+      ///  to be called for each enumerated environment variable.</summary>
+      ///  <param name="VarName">string [in] Name of the current environment
+      ///  variable in the enumeration.</param>
+      ///  <param name="Data">Pointer [in] User-specified value that was passed
+      ///  to <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames&lt;T&gt;"/>
+      ///  </param>
+      ///  <remarks>Either closures or normal methods can be assigned to
+      ///  <c>TEnumNamesCallback&lt;T&gt;</c>.</remarks>
+      TEnumNamesCallback<T> = reference to
+        procedure(const VarName: string; Data: T);
+
+      ///  <summary>Type of callback method passed to the
+      ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumVars&lt;T&gt;"/> method,
+      ///  to be called for each enumerated environment variable.</summary>
+      ///  <param name="EnvVar"><see cref="PJEnvVars|TPJEnvironmentVar"/> [in]
+      ///  Information about the current environment variable in the
+      ///  enumeration.</param>
+      ///  <param name="Data">Pointer [in] User-specified value that was passed
+      ///  to <see cref="PJEnvVars|TPJEnvironmentVars.EnumVars&lt;T&gt;"/>
+      ///  </param>
+      ///  <remarks>Either closures or normal methods can be assigned to
+      ///  <c>TEnumVarsCallback&lt;T&gt;</c>.</remarks>
+      TEnumVarsCallback<T> = reference to
+        procedure(const EnvVar: TPJEnvironmentVar; Data: T);
   public
     ///  <summary>Prevents construction of instances of this static class.
     ///  </summary>
@@ -212,23 +216,50 @@ type
     ///  <returns>TStringDynArray. Dynamic array containing the environment
     ///  variable names.</returns>
     class function GetAllNames: TStringDynArray; overload;
+
     ///  <summary>Enumerates the names of all environment variables in the
     ///  current process.</summary>
-    ///  <param name="Callback"><see cref="PJEnvVars|TPJEnvVarsEnum"/> [in]
-    ///  Callback method called once for each environment variable, passing its
-    ///  name and the value of the <c>Data</c> pointer as parameters.</param>
-    ///  <param name="Data">Pointer [in] Data to be passed to <c>Callback</c>
+    ///  <param name="Callback"><see
+    ///  cref="PJEnvVars|TEnumNamesCallback&lt;T&gt;"/> [in] Closure called once
+    ///  for each environment variable, passing its name and <c>Data</c> as
+    ///  parameters.</param>
+    ///  <param name="Data">&lt;T&gt; [in] Data to be passed to <c>Callback</c>
     ///  method each time it is called.</param>
-    class procedure EnumNames(Callback: TPJEnvVarsEnum; Data: Pointer);
+    ///  <remarks>This is a parameterised method that enables the <c>Data</c>
+    ///  parameter to take on the desired type.</remarks>
+    class procedure EnumNames<T>(Callback: TEnumNamesCallback<T>; Data: T);
+      overload;
+
+    ///  <summary>Enumerates the names of all environment variables in the
+    ///  current process.</summary>
+    ///  <remarks>This deprecated method is equivalent to calling
+    ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames&lt;Pointer&gt;"/>.
+    ///  </remarks>
+    class procedure EnumNames(Callback: TEnumNamesCallback<Pointer>;
+      Data: Pointer) overload;
+      deprecated 'Use TPJEnvironmentVars.EnumNames<Pointer> instead';
+
     ///  <summary>Enumerates all the environment variables available to the
     ///  current process.</summary>
-    ///  <param name="Callback"><see cref="PJEnvVars|TPJEnvVarsEnumEx"/> [in]
-    ///  Callback method called once for each environment variable, passing a
-    ///  record containing its name and value along with the the value of the
-    ///  <c>Data</c> pointer as parameters.</param>
-    ///  <param name="Data">Pointer [in] Data to be passed to <c>Callback</c>
+    ///  <param name="Callback"><see
+    ///  cref="PJEnvVars|TEnumVarsCallback&lt;T&gt;"/> [in] Closure called once
+    ///  for each environment variable, passing a record containing its name and
+    ///  value, along with <c>Data</c>, as parameters.</param>
+    ///  <param name="Data">&lt;T&gt; [in] Data to be passed to <c>Callback</c>
     ///  method each time it is called.</param>
-    class procedure EnumVars(Callback: TPJEnvVarsEnumEx; Data: Pointer);
+    ///  <remarks>This is a parameterised method that enables the <c>Data</c>
+    ///  parameter to take on the desired type.</remarks>
+    class procedure EnumVars<T>(Callback: TEnumVarsCallback<T>; Data: T);
+      overload;
+
+    ///  <summary>Enumerates all the environment variables available to the
+    ///  current process.</summary>
+    ///  <remarks>This deprecated method is equivalent to calling
+    ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumVars&lt;Pointer&gt;"/>.
+    ///  </remarks>
+    class procedure EnumVars(Callback: TEnumVarsCallback<Pointer>;
+      Data: Pointer); overload;
+      deprecated 'Use TPJEnvironmentVars.EnumVars<Pointer> instead';
   end;
 
   ///  <summary>Enumerator for all environment variables names in the current
@@ -258,6 +289,20 @@ type
     ///  <summary>Name of current environment variable in enumeration.</summary>
     property Current: string read GetCurrent;
   end;
+
+  ///  <summary>Type of callback method that can be passed to the
+  ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames"/> method.</summary>
+  ///  <remarks>Deprecated type retained for backwards compatibility only
+  ///  </remarks>
+  TPJEnvVarsEnum = TPJEnvironmentVars.TEnumNamesCallback<Pointer>
+    deprecated 'Use TPJEnvironmentVars.TEnumNamesCallback<Pointer> instead';
+
+  ///  <summary>Type of callback method that can be passed to the
+  ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumVars"/> method.</summary>
+  ///  <remarks>Deprecated type retained for backwards compatibility only
+  ///  </remarks>
+  TPJEnvVarsEnumEx = TPJEnvironmentVars.TEnumVarsCallback<Pointer>
+    deprecated 'Use TPJEnvironmentVars.TEnumVarsCallback<Pointer> instead';
 
   ///  <summary>Exception raised by <see cref="PJEnvVars|TPJEnvVars"/> when an
   ///  error is encountered.</summary>
@@ -401,8 +446,15 @@ begin
     Result := GetLastError;
 end;
 
-class procedure TPJEnvironmentVars.EnumNames(Callback: TPJEnvVarsEnum;
-  Data: Pointer);
+class procedure TPJEnvironmentVars.EnumNames(
+  Callback: TEnumNamesCallback<Pointer>; Data: Pointer);
+begin
+  Assert(Assigned(Callback));
+  EnumNames<Pointer>(Callback, Data);
+end;
+
+class procedure TPJEnvironmentVars.EnumNames<T>(Callback: TEnumNamesCallback<T>;
+  Data: T);
 var
   Idx: Integer;
   EnvList: TStringList;
@@ -418,8 +470,15 @@ begin
   end;
 end;
 
-class procedure TPJEnvironmentVars.EnumVars(Callback: TPJEnvVarsEnumEx;
-  Data: Pointer);
+class procedure TPJEnvironmentVars.EnumVars(
+  Callback: TEnumVarsCallback<Pointer>; Data: Pointer);
+begin
+  Assert(Assigned(Callback));
+  EnumVars<Pointer>(Callback, Data);
+end;
+
+class procedure TPJEnvironmentVars.EnumVars<T>(Callback: TEnumVarsCallback<T>;
+  Data: T);
 var
   Idx: Integer;
   AllEnvVars: TPJEnvironmentVarArray;
