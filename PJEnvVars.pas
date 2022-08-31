@@ -54,6 +54,8 @@ unit PJEnvVars;
   {$ENDIF}
 {$ENDIF}
 
+// Set required compiler options
+{$LONGSTRINGS ON}
 
 interface
 
