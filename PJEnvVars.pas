@@ -20,14 +20,14 @@
 unit PJEnvVars;
 
 
-// Set conditional symbols & switch off unsafe warnings where supported
-{$UNDEF Supports_RTLNamespaces}
+// Set conditional symbols
+{$UNDEF Supports_UnitScopeNames}
 {$IFDEF CONDITIONALEXPRESSIONS}
   {$IF CompilerVersion >= 24.0} // Delphi XE3 and later
     {$LEGACYIFEND ON}  // NOTE: this must come before all $IFEND directives
   {$IFEND}
   {$IF CompilerVersion >= 23.0} // Delphi XE2 ad later
-    {$DEFINE Supports_RTLNamespaces}
+    {$DEFINE Supports_UnitScopeNames}
   {$IFEND}
 {$ENDIF}
 
@@ -37,7 +37,7 @@ interface
 
 uses
   // Delphi
-  {$IFNDEF Supports_RTLNamespaces}
+  {$IFNDEF Supports_UnitScopeNames}
   SysUtils, Classes, Types;
   {$ELSE}
   System.SysUtils, System.Classes, System.Types;
@@ -244,7 +244,7 @@ implementation
 
 uses
   // Delphi
-  {$IFNDEF Supports_RTLNamespaces}
+  {$IFNDEF Supports_UnitScopeNames}
   RTLConsts, Windows;
   {$ELSE}
   System.RTLConsts, Winapi.Windows;
