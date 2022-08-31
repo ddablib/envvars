@@ -21,10 +21,6 @@ unit PJEnvVars;
 
 
 // Set conditional symbols & switch off unsafe warnings where supported
-{$UNDEF Has_Types_Unit}
-{$UNDEF Supports_ENoConstructException}
-{$UNDEF Supports_EOSError}
-{$UNDEF Supports_Closures}
 {$UNDEF Supports_RTLNamespaces}
 {$IFDEF CONDITIONALEXPRESSIONS}
   {$IF CompilerVersion >= 24.0} // Delphi XE3 and later
@@ -32,19 +28,6 @@ unit PJEnvVars;
   {$IFEND}
   {$IF CompilerVersion >= 23.0} // Delphi XE2 ad later
     {$DEFINE Supports_RTLNamespaces}
-  {$IFEND}
-  {$IF CompilerVersion >= 20.0} // Delphi 2009 and later
-    {$DEFINE Supports_ENoConstructException}
-    {$DEFINE Supports_Closures}
-  {$IFEND}
-  {$IF CompilerVersion >= 15.0} // Delphi 7 and later
-    // Switch off unsafe warnings
-    {$WARN UNSAFE_TYPE OFF}
-    {$WARN UNSAFE_CODE OFF}
-  {$IFEND}
-  {$IF CompilerVersion >= 14.0} // Delphi 6 and later
-    {$DEFINE Supports_EOSError}
-    {$DEFINE Has_Types_Unit}
   {$IFEND}
 {$ENDIF}
 
@@ -55,17 +38,10 @@ interface
 uses
   // Delphi
   {$IFNDEF Supports_RTLNamespaces}
-  SysUtils, Classes {$IFDEF Has_Types_Unit}, Types{$ENDIF};
+  SysUtils, Classes, Types;
   {$ELSE}
   System.SysUtils, System.Classes, System.Types;
   {$ENDIF}
-
-{$IFNDEF Has_Types_Unit}
-type
-  // Dynamic array of strings. Defined in Types unit when compiled with versions
-  // of Delphi that have it.
-  TStringDynArray = array of string;
-{$ENDIF}
 
 type
 
@@ -89,17 +65,9 @@ type
   ///  variable in the enumeration.</param>
   ///  <param name="Data">Pointer [in] User-specified value that was passed to
   ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames"/></param>
-  ///  <remarks>When compiled with a compiler that supports anonymous methods
-  ///  <c>TPJEnvVarsEnum</c> is an anonymous method type, otherwise it is a
-  ///  normal method type. NOTE: normal methods can be assigned to
-  ///  <c>TPJEnvVarsEnum</c> even when it is compiled as an anonymous type.
-  ///  </remarks>
-  TPJEnvVarsEnum =
-    {$IFNDEF Supports_Closures}
-    procedure(const VarName: string; Data: Pointer) of object;
-    {$ELSE}
-    reference to procedure(const VarName: string; Data: Pointer);
-    {$ENDIF}
+  ///  <remarks>Either closures or normal methods can be assigned to
+  ///  <c>TPJEnvVarsEnum</c>.</remarks>
+  TPJEnvVarsEnum = reference to procedure(const VarName: string; Data: Pointer);
 
   ///  <summary>Type of callback method passed to the
   ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumVars"/> method, to be called
@@ -109,17 +77,10 @@ type
   ///  </param>
   ///  <param name="Data">Pointer [in] User-specified value that was passed to
   ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumVars"/></param>
-  ///  <remarks>When compiled with a compiler that supports anonymous methods
-  ///  <c>TPJEnvVarsEnumEx</c> is an anonymous method type, otherwise it is a
-  ///  normal method type. NOTE: normal methods can be assigned to
-  ///  <c>TPJEnvVarsEnumEx</c> even when it is compiled as an anonymous type.
-  ///  </remarks>
-  TPJEnvVarsEnumEx =
-    {$IFNDEF Supports_Closures}
-    procedure(const EnvVar: TPJEnvironmentVar; Data: Pointer) of object;
-    {$ELSE}
-    reference to procedure(const EnvVar: TPJEnvironmentVar; Data: Pointer);
-    {$ENDIF}
+  ///  <remarks>Either closures or normal methods can be assigned to
+  ///  <c>TPJEnvVarsEnumEx</c>.</remarks>
+  TPJEnvVarsEnumEx = reference to procedure(const EnvVar: TPJEnvironmentVar;
+    Data: Pointer);
 
   ///  <summary>Static class providing class methods for interrogating,
   ///  manipulating and modifying the environment variables available to the
@@ -275,17 +236,7 @@ type
 
   ///  <summary>Exception raised by <see cref="PJEnvVars|TPJEnvVars"/> when an
   ///  error is encountered.</summary>
-  {$IFDEF Supports_EOSError}
   EPJEnvVars = class(EOSError);
-  {$ELSE}
-  EPJEnvVars = class(EWin32Error);
-  {$ENDIF}
-
-  {$IFNDEF Supports_ENoConstructException}
-  // Exception class for use with versions of Delphi that don't define the
-  // class in SysUtils
-  ENoConstructException = class(Exception);
-  {$ENDIF}
 
 
 implementation
@@ -294,15 +245,10 @@ implementation
 uses
   // Delphi
   {$IFNDEF Supports_RTLNamespaces}
-  {$IFDEF Supports_ENoConstructException}RTLConsts,{$ENDIF} Windows;
+  RTLConsts, Windows;
   {$ELSE}
   System.RTLConsts, Winapi.Windows;
   {$ENDIF}
-
-{$IFNDEF Supports_ENoConstructException}
-resourcestring
-  sNoConstruct = 'Class %s is not intended to be constructed';
-{$ENDIF}
 
 { TPJEnvVarsEnumerator }
 
