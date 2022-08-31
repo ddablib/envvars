@@ -1,25 +1,19 @@
 {
  * This Source Code Form is subject to the terms of the Mozilla Public License,
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
- * obtain one at http://mozilla.org/MPL/2.0/
+ * obtain one at https://mozilla.org/MPL/2.0/
  *
- * Copyright (C) 1998-2014, Peter Johnson (www.delphidabbler.com).
+ * Copyright (C) 1998-2022, Peter Johnson (delphidabbler.com).
  *
  * DelphiDabbler Environment Variables unit. Contains classes for interrogating,
  * modifying and enumerating the environment variables belonging to the current
  * process.
  *
- * This unit also contains a component and stand-alone routines that are now
- * deprecated. These are provided for backward compatibility reasons. Note that
- * component registration code has been moved into the PJEnvVarsDsgn unit.
- *
- * Documented at http://www.delphidabbler.com/url/envvars-docs
+ * Documented at https://delphidabbler.com/url/envvars-docs
  *
  * ACKNOWLEDGEMENTS
  *
  * Thanks to "e.e" for bug fix in v1.3.2
- *
- * ***** END LICENSE BLOCK *****
 }
 
 
@@ -31,8 +25,6 @@ unit PJEnvVars;
 {$UNDEF Supports_ENoConstructException}
 {$UNDEF Supports_EOSError}
 {$UNDEF Supports_Closures}
-{$UNDEF Supports_Deprecated}
-{$UNDEF Supports_Deprecated_Hints}
 {$UNDEF Supports_RTLNamespaces}
 {$IFDEF CONDITIONALEXPRESSIONS}
   {$IF CompilerVersion >= 24.0} // Delphi XE3 and later
@@ -44,7 +36,6 @@ unit PJEnvVars;
   {$IF CompilerVersion >= 20.0} // Delphi 2009 and later
     {$DEFINE Supports_ENoConstructException}
     {$DEFINE Supports_Closures}
-    {$DEFINE Supports_Deprecated_Hints}
   {$IFEND}
   {$IF CompilerVersion >= 15.0} // Delphi 7 and later
     // Switch off unsafe warnings
@@ -54,7 +45,6 @@ unit PJEnvVars;
   {$IF CompilerVersion >= 14.0} // Delphi 6 and later
     {$DEFINE Supports_EOSError}
     {$DEFINE Has_Types_Unit}
-    {$DEFINE Supports_Deprecated}
   {$IFEND}
 {$ENDIF}
 
@@ -76,118 +66,6 @@ type
   // of Delphi that have it.
   TStringDynArray = array of string;
 {$ENDIF}
-
-///  <summary>Gets the value of an environment variable.</summary>
-///  <remarks>This is an alias for
-///  <see cref="PJEnvVars|TPJEnvironmentVars.GetValue"/> which should be used in
-///  preference.</remarks>
-function GetEnvVarValue(const VarName: string): string;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.GetValue instead'
-  {$ENDIF}
-  {$ENDIF};
-
-///  <summary>Sets the value of an environment variable.</summary>
-///  <remarks>This is an alias for
-///  <see cref="PJEnvVars|TPJEnvironmentVars.SetValue"/> which should be used in
-///  preference.</remarks>
-function SetEnvVarValue(const VarName, VarValue: string): Integer;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.SetValue instead'
-  {$ENDIF}
-  {$ENDIF};
-
-///  <summary>Deletes an environment variable.</summary>
-///  <remarks>This is an alias for
-///  <see cref="PJEnvVars|TPJEnvironmentVars.Delete"/> which should be used in
-///  preference.</remarks>
-function DeleteEnvVar(const VarName: string): Integer;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.Delete instead'
-  {$ENDIF}
-  {$ENDIF};
-
-///  <summary>Creates a new custom environment block.</summary>
-///  <remarks>This is an alias for
-///  <see cref="PJEnvVars|TPJEnvironmentVars.CreateBlock"/> which should be used
-///  in preference.</remarks>
-function CreateEnvBlock(const NewEnv: TStrings; const IncludeCurrent: Boolean;
-  const Buffer: Pointer; const BufSize: Integer): Integer;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.CreateBlock instead'
-  {$ENDIF}
-  {$ENDIF};
-
-///  <summary>Replaces any environment variable names in a string with their
-///  values.</summary>
-///  <remarks>This is an alias for
-///  <see cref="PJEnvVars|TPJEnvironmentVars.Expand"/> which should be used in
-///  preference.</remarks>
-function ExpandEnvVars(const Str: string): string;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.Expand instead'
-  {$ENDIF}
-  {$ENDIF};
-
-///  <summary>Gets a list of all the environment variables available to the
-///  current process in <c>Name=Value</c> format.</summary>
-///  <remarks>This is an alias for
-///  <see cref="PJEnvVars|TPJEnvironmentVars.GetAll"/> which should be used in
-///  preference.</remarks>
-function GetAllEnvVars(const Vars: TStrings): Integer;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.GetAll instead'
-  {$ENDIF}
-  {$ENDIF};
-
-///  <summary>Gets a list of names of all environment variables in the current
-///  process.</summary>
-///  <remarks>This is an alias for
-///  <see cref="PJEnvVars|TPJEnvironmentVars.GetAllNames"/> which should be used
-///  in preference.</remarks>
-procedure GetAllEnvVarNames(const Names: TStrings); overload;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.GetAllNames instead'
-  {$ENDIF}
-  {$ENDIF};
-
-///  <remarks>This is an alias for the <c>TStringDynArray</c> overload of
-///  <see cref="PJEnvVars|TPJEnvironmentVars.GetAllNames"/> which should be used
-///  in preference.</remarks>
-function GetAllEnvVarNames: TStringDynArray; overload;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.GetAllNames instead'
-  {$ENDIF}
-  {$ENDIF};
-
-///  <summary>Calculates the size of the current process' environment block.
-///  </summary>
-///  <remarks>This is an alias for
-///  <see cref="PJEnvVars|TPJEnvironmentVars.BlockSize"/> which should be used
-///  in preference.</remarks>
-function EnvBlockSize: Integer;
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars.BlockSize instead'
-  {$ENDIF}
-  {$ENDIF};
 
 type
 
@@ -395,96 +273,6 @@ type
     property Current: string read GetCurrent;
   end;
 
-  ///  <summary>Component that encapsulates environment variables available to
-  ///  the current process and enables them to be queried and modified.
-  ///  </summary>
-  ///  <remarks>
-  ///  <para>WARNING: Only one instance of the component can be placed on a form
-  ///  or owned by another control.</para>
-  ///  <para>NOTE: This component is deprecated. The
-  ///  <see cref="PJEnvVars|TPJEnvironmentVars"/> static class should be used
-  ///  instead.</para>
-  ///  </remarks>
-  TPJEnvVars = class(TComponent)
-  private
-    ///  <summary>Read accessor for the <c>Count</c> property.</summary>
-    function GetCount: Integer;
-    ///  <summary>Read accessor for the <c>Values[]</c> property.</summary>
-    function GetValue(Name: string): string;
-    ///  <summary>Write accessor for the <c>Values[]</c> property.</summary>
-    ///  <exception cref="PJEnvVars|EPJEnvVars">Raised if the named environment
-    ///  variable can't be set.</exception>
-    procedure SetValue(Name: string; const Value: string);
-    ///  <summary>Checks the given OS error code, and if it is non-zero, raises
-    ///  an exception.</summary>
-    ///  <exception cref="PJEnvVars|EPJEnvVars">Raise if <c>Code</c> is not
-    ///  zero. Exception <c>Code</c> property is set to the given code and its
-    ///  <c>Message</c> property is the corresponding error message obtained
-    ///  from the operating system.</exception>
-    procedure ErrorCheck(Code: Integer);
-  public
-    ///  <summary>Creates a new instance of the component.</summary>
-    ///  <param name="AOwner">TComponent [in] Owning component. May be
-    ///  <c>nil</c> if no owner.</param>
-    ///  <exception cref="Exception">Raised if a <c>TPJEnvVars</c> component is
-    ///  already has the same owner.</exception>
-    constructor Create(AOwner: TComponent); override;
-    ///  <summary>Enumerates names of all environment variables in current
-    ///  process.</summary>
-    ///  <param name="Callback"><see cref="PJEnvVars|TPJEnvVarsEnum"/> [in]
-    ///  Method called once for each environment variable, passing it the
-    ///  environment variable's name and the value of the <c>Data</c> parameter.
-    ///  </param>
-    ///  <param name="Data">Pointer [in] User defined value passed to every call
-    ///  to the <c>Callback</c> method.</param>
-    ///  <remarks>Deprecated. Use
-    ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames"/> instead.</remarks>
-    procedure EnumNames(Callback: TPJEnvVarsEnum; Data: Pointer);
-    ///  <summary>Creates and returns a new enumerator of all environment
-    ///  variable names in the current process.</summary>
-    ///  <returns><see cref="PJEnvVars|TPJEnvVarsEnumerator"/>. Required
-    ///  enumerator.</returns>
-    ///  <remarks>
-    ///  <para>Caller is responsible for freeing the enumerator.</para>
-    ///  <para>Deprecated. Create instances of
-    ///  <see cref="PJEnvVars|TPJEnvVarsEnumerator"/> directly or use
-    ///  <see cref="PJEnvVars|TPJEnvironmentVars.EnumNames"/> instead.</para>
-    ///  </remarks>
-    function GetEnumerator: TPJEnvVarsEnumerator;
-    ///  <summary>Deletes the environment variable with the given name.
-    ///  </summary>
-    ///  <exception cref="PJEnvVars|EPJEnvVars">Raised if the named environment
-    ///  variable can't be deleted.</exception>
-    ///  <remarks>Deprecated. Use
-    ///  <see cref="PJEnvVars|TPJEnvironmentVars.Delete"/> instead.</remarks>
-    procedure DeleteVar(const Name: string);
-    ///  <summary>Count of the number of environment variables in the current
-    ///  process.</summary>
-    ///  <remarks>Deprecated. Use
-    ///  <see cref="PJEnvVars|TPJEnvironmentVars.Count"/> instead.</remarks>
-    property Count: Integer read GetCount;
-    ///  <summary>Array of values of each environment variable in the current
-    ///  process, indexed by its name.</summary>
-    ///  <exception cref="PJEnvVars|EPJEnvVars">Raised when writing to
-    ///  <c>Values[]</c> if the named environment variable can't be set.
-    ///  </exception>
-    ///  <remarks>
-    ///  <para>Getting the value of an unknown environment variable returns
-    ///  the empty string. Setting the value of an unknown environment variable
-    ///  creates it.</para>
-    ///  <para>Deprecated. Use
-    ///  <see cref="PJEnvVars|TPJEnvironmentVars.GetValue"/> and
-    ///  <see cref="PJEnvVars|TPJEnvironmentVars.SetValue"/> instead.</para>
-    ///  </remarks>
-    property Values[Name: string]: string read GetValue write SetValue;
-  end
-  {$IFDEF Supports_Deprecated}
-  deprecated
-  {$IFDEF Supports_Deprecated_Hints}
-  'Use TPJEnvironmentVars static class instead'
-  {$ENDIF}
-  {$ENDIF};
-
   ///  <summary>Exception raised by <see cref="PJEnvVars|TPJEnvVars"/> when an
   ///  error is encountered.</summary>
   {$IFDEF Supports_EOSError}
@@ -515,118 +303,6 @@ uses
 resourcestring
   sNoConstruct = 'Class %s is not intended to be constructed';
 {$ENDIF}
-
-function GetEnvVarValue(const VarName: string): string;
-begin
-  Result := TPJEnvironmentVars.GetValue(VarName);
-end;
-
-function SetEnvVarValue(const VarName, VarValue: string): Integer;
-begin
-  Result := TPJEnvironmentVars.SetValue(VarName, VarValue);
-end;
-
-function DeleteEnvVar(const VarName: string): Integer;
-begin
-  Result := TPJEnvironmentVars.Delete(VarName);
-end;
-
-function CreateEnvBlock(const NewEnv: TStrings; const IncludeCurrent: Boolean;
-  const Buffer: Pointer; const BufSize: Integer): Integer;
-begin
-  Result := TPJEnvironmentVars.CreateBlock(
-    NewEnv, IncludeCurrent, Buffer, BufSize
-  );
-end;
-
-function ExpandEnvVars(const Str: string): string;
-begin
-  Result := TPJEnvironmentVars.Expand(Str);
-end;
-
-function GetAllEnvVars(const Vars: TStrings): Integer;
-begin
-  Result := TPJEnvironmentVars.GetAll(Vars);
-end;
-
-procedure GetAllEnvVarNames(const Names: TStrings); overload;
-begin
-  TPJEnvironmentVars.GetAllNames(Names);
-end;
-
-function GetAllEnvVarNames: TStringDynArray; overload;
-begin
-  Result := TPJEnvironmentVars.GetAllNames;
-end;
-
-function EnvBlockSize: Integer;
-begin
-  Result := TPJEnvironmentVars.BlockSize;
-end;
-
-{ TPJEnvVars }
-
-resourcestring
-  sSingleInstanceErr = 'Only one %1:s component is permitted for any owner: ' +
-    '%1:s is already owned by %2:s';
-
-constructor TPJEnvVars.Create(AOwner: TComponent);
-var
-  Idx: Integer; // loops through components of AOwner
-begin
-  if Assigned(AOwner) then
-  begin
-    // Ensure that component is unique
-    for Idx := 0 to Pred(AOwner.ComponentCount) do
-      if AOwner.Components[Idx] is ClassType then
-        raise Exception.CreateFmt(sSingleInstanceErr,
-          [ClassName, AOwner.Components[Idx].Name, AOwner.Name]);
-  end;
-  // All OK: go ahead and create component
-  inherited;
-end;
-
-procedure TPJEnvVars.DeleteVar(const Name: string);
-begin
-  ErrorCheck(TPJEnvironmentVars.Delete(Name));
-end;
-
-procedure TPJEnvVars.EnumNames(Callback: TPJEnvVarsEnum; Data: Pointer);
-begin
-  TPJEnvironmentVars.EnumNames(Callback, Data);
-end;
-
-procedure TPJEnvVars.ErrorCheck(Code: Integer);
-var
-  Err: EPJEnvVars;  // reference to exception being raised
-begin
-  if Code <> 0 then
-  begin
-    Err := EPJEnvVars.Create(SysErrorMessage(Code));
-    Err.ErrorCode := Code;
-    raise Err;
-  end;
-end;
-
-function TPJEnvVars.GetCount: Integer;
-begin
-  Result := TPJEnvironmentVars.Count;
-end;
-
-function TPJEnvVars.GetEnumerator: TPJEnvVarsEnumerator;
-begin
-  Result := TPJEnvVarsEnumerator.Create;
-end;
-
-function TPJEnvVars.GetValue(Name: string): string;
-begin
-  Result := TPJEnvironmentVars.GetValue(Name);
-end;
-
-procedure TPJEnvVars.SetValue(Name: string; const Value: string);
-begin
-  ErrorCheck(TPJEnvironmentVars.SetValue(Name, Value));
-end;
 
 { TPJEnvVarsEnumerator }
 
